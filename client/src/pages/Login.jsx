@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider, facebookProvider } from "../firebase";
+import { auth, googleProvider, facebookProvider } from "../Firebase";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, facebookProvider);
       console.log("Facebook user:", result.user);
       // 👉 chuyển hướng sang trang Home
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Facebook login error:", error);
       alert("Đăng nhập Facebook thất bại!");
