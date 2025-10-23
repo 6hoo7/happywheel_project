@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+  backend:
+    build: ./server
+    container_name: backend
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/.env
+    environment:
+      - DB_URI=mongodb://mongo:27017/apihw
+    depends_on:
+      - mongo
+    volumes:
+      - ./server:/app
+    networks:
+      - app-network
+
+  client:
+    build: ./client
+    container_name: client
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+
+
+networks:
+  app-network:
+    driver: bridge

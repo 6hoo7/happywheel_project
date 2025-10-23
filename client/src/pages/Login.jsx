@@ -1,8 +1,8 @@
-// ...existing code...'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaFacebook, FaGoogle } from "react-icons/fa";
-// ...existing code...
+import { API_URL } from "../configAPI";
+
 const Login = () => {
     return (
         <div>
@@ -35,15 +35,26 @@ const Login = () => {
                             <input id="remember" type="checkbox" />
                             <label htmlFor="remember" >Ghi nhớ</label>
                         </div>
-                        <Link to='' className="text-blue-500">Quên mật khẩu?</Link>    
+                        <Link to='' className="text-blue-500">Quên mật khẩu?</Link>
                     </div>
-                    
+
                     {/* Icon Login Options */}
                     <div className="flex justify-center gap-6 mb-0 mt-6">
-                        <button type="button" className="p-3 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition">
+                        <button type="button"
+                            onClick={() => {
+                                window.location.href = `${API_URL}/auth/facebook`;
+                            }}
+                            className="p-3 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition">
                             <FaFacebook size={20} />
                         </button>
-                        <button type="button" className="p-3 bg-red-500 rounded-full text-white hover:bg-red-600 transition">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                window.location.href = `${API_URL}/auth/google/url`;
+                                // server sẽ redirect sang Google Auth
+                            }}
+                            className="p-3 bg-red-500 rounded-full text-white hover:bg-red-600 transition"
+                        >
                             <FaGoogle size={20} />
                         </button>
                     </div>
@@ -58,4 +69,3 @@ const Login = () => {
 };
 
 export default Login;
-// ...existing code...
