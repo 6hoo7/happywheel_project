@@ -1,10 +1,16 @@
-version: '3.8'
+# version: '3.9'
 
 services:
   mongo:
     image: mongo:7
     container_name: mongo
     restart: always
+    env_file:
+      - /server/.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=apihw
     ports:
       - "27017:27017"
     volumes:
@@ -13,11 +19,13 @@ services:
       - app-network
 
   backend:
-    build: ./server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
     container_name: backend
-    restart: always
+    restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3000"
     env_file:
       - ./server/.env
     environment:
@@ -25,20 +33,20 @@ services:
     depends_on:
       - mongo
     volumes:
-      - ./server:/app
-    networks:
-      - app-network
+      - ./server:/server:cached
 
-  client:
-    build: ./client
-    container_name: client
-    restart: always
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: unless-stopped
     ports:
       - "5173:80"
     depends_on:
       - backend
-    networks:
-      - app-network
+    volumes:
+      - ./client:/client:cached
 
 volumes:
   mongo_data:
