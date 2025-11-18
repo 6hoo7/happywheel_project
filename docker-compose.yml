@@ -10,9 +10,11 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_INITDB_DATABASE=apihw
+      - MONGO_INITDB_DATABASE=admin
     ports:
       - "27017:27017"
+    # command:
+    #   - mongod --bind_ip_all
     volumes:
       - mongo_data:/data/db
     networks:
@@ -28,8 +30,10 @@ services:
       - "3000:3000"
     env_file:
       - ./server/.env
+    # environment:
+    #   - DB_URI=mongodb://mongo:27017/apihw
     environment:
-      - DB_URI=mongodb://mongo:27017/apihw
+      - DB_URI=mongodb://root:password@mongo:27017/apihw?authSource=admin
     depends_on:
       - mongo
     volumes:
@@ -44,7 +48,7 @@ services:
     container_name: frontend
     restart: unless-stopped
     ports:
-      - "5173:80"
+      - "5173:5173"
     depends_on:
       - backend
     volumes:
