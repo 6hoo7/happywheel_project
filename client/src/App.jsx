@@ -26,7 +26,9 @@ import { AuthProvider } from "./contexts/AuthContext";
 export default function App() {
   return (
     <AuthProvider>
-      <div className="text-white h-[100vh] flex justify-center items-center bg-cover" style={{ backgroundImage: "url('/src/assets/background.jpg')" }}>
+      <div
+        className="text-white h-[100vh] flex justify-center items-center bg-cover"
+        style={{ backgroundImage: "url('/src/assets/background.jpg')" }}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='login' element={<Login />} />
