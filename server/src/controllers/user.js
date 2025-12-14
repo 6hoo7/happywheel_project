@@ -31,3 +31,51 @@ export const getUserProfile = async (req, res) => {
         res.status(500).json({ success: false, message: "Lỗi server" });
     }
 };
+
+// controllers/auth.js
+export const signOut = async (req, res) => {
+    try {
+        // 1) Passport logout (nếu bạn dùng passport session)
+        // (Trong code bạn đang authenticate với session: false, nhưng thêm vào để an toàn)
+        if (typeof req.logout === "function") {
+            try {
+                req.logout(function (err) {
+                    if (err) console.warn("Passport logout error:", err);
+                });
+            } catch (err) {
+                // fallback cho các phiên bản passport cũ
+                try { req.logout(); } catch { }
+            }
+        }
+
+        // 2) Clear cookie nếu bạn dùng express-session hoặc lưu token cookie
+        res.clearCookie("connect.sid", {
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax"
+        });
+
+        res.clearCookie("token", {
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax"
+        });
+
+        // 3) Không cần revoke token Google/Facebook
+        // vì bạn KHÔNG dùng refresh token của provider để duy trì session server-side.
+
+        // 4) Trả về client
+        return res.status(200).json({
+            success: true,
+            message: "Đăng xuất thành công (server đã xoá session/token)."
+        });
+
+    } catch (error) {
+        console.error("SignOut error:", error);
+        return res.status(500).json({ success: false, message: "Lỗi server khi đăng xuất" });
+    }
+};
+
+
+
+
