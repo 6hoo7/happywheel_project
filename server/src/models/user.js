@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
             required: true,
         },
         picture: String,
-        spins: { type: Number, default: 0 },
+        spins: { type: Number, default: 36 },
         points: { type: Number, default: 0 },
         // history: [
         //     {

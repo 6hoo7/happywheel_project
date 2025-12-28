@@ -9,7 +9,7 @@ const giftSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["point", "physical"], // điểm thưởng hoặc vật lý
+      enum: ["none", "point", "physical"], // điểm thưởng hoặc vật lý
       required: true,
     },
     value: {

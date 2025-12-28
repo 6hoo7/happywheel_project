@@ -5,7 +5,7 @@ const claimSchema = new mongoose.Schema(
     source: { type: String, enum: ["spin", "exchange"], required: true },
 
     gift: { type: mongoose.Schema.Types.ObjectId, ref: "Gift" }, // nếu đến từ quay
-    reward: { type: mongoose.Schema.Types.ObjectId, ref: "physicalReward" }, // nếu đổi
+    reward: { type: mongoose.Schema.Types.ObjectId, ref: "PhysicalReward" }, // nếu đổi
 
     address: { type: String, required: true },
 
