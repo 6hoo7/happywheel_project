@@ -16,12 +16,12 @@
 //   );
 // }
 
-import {BrowserRouter as Router, Routes, Route  } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import AuthSuccess from "./pages/AuthSuccess";
-import bg from "./assets/background.jpg";
+import bg from "./assets/blossom.jpg";
 import Profile from "./pages/Profile";
 
 export default function App() {

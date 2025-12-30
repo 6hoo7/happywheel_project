@@ -5,20 +5,14 @@ services:
     image: mongo:7
     container_name: mongo
     restart: always
-    env_file:
-      - ./server/.env
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=admin
     ports:
-      - "27017:27017"
-    # command:
-    #   - mongod --bind_ip_all
+      - "27018:27017"
     volumes:
       - mongo_data:/data/db
-    networks:
-      - app-network
 
   backend:
     build:
@@ -30,16 +24,12 @@ services:
       - "3000:3000"
     env_file:
       - ./server/.env
-    # environment:
-    #   - DB_URI=mongodb://mongo:27017/apihw
     environment:
-      - DB_URI=mongodb://root:password@mongo:27017/apihw?authSource=admin
+      - DB_URI=mongodb://root:password@localhost:27018/?authSource=admin
     depends_on:
       - mongo
     volumes:
       - ./server:/server:cached
-    networks:
-      - app-network
 
   frontend:
     build:
@@ -53,13 +43,6 @@ services:
       - backend
     volumes:
       - ./client:/client:cached
-    networks:
-      - app-network
 
 volumes:
   mongo_data:
-
-
-networks:
-  app-network:
-    driver: bridge
